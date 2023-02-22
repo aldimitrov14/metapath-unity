@@ -11,7 +11,7 @@ transform.position = new Vector3(transform.position.x, 100, transform.position.z
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
-        float vertical = Input.GetAxis("Vertical");
+        float vertical = Input.GetAxis("Vertical 22");
 
         Vector3 moveDirection = new Vector3(horizontal, 100, vertical);
         transform.position = transform.position + moveDirection * Time.deltaTime;
