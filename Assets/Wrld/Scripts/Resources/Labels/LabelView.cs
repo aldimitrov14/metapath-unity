@@ -6,13 +6,8 @@ using Wrld.Interop;
 using UnityEngine;
 using System.Runtime.InteropServices;
 
-
-
-
-
 namespace Wrld.Resources.Labels
 {
-
     internal class LabelView
     {
         private UnityEngine.UI.Text m_textComponent;
@@ -20,15 +15,6 @@ namespace Wrld.Resources.Labels
 
         const string LabelTextPrefabPath = "Labels/ScreenTextPrefab";
         const string LabelIconPrefabPath = "Labels/ScreenIconPrefab";
-
-            public class LabelViewScript : MonoBehaviour
-{
-    // Use this for initialization
-    void Start()
-    {
-        Debug.Log("LabelView script has started");
-    }
-}
 
         public LabelView(ref LabelCreateOptionsInterop createOptions, Canvas unityCanvas, List<Texture> iconTexturePages)
         {

@@ -12,7 +12,7 @@ namespace Wrld.Editor
         const string StreamingResourcesDirectory = "Assets/StreamingAssets/WrldResources";
         const string WindowsResourcesDirectory = "Assets/Wrld/AssetData/Windows/";
         const string iOSResourcesDirectory = "Assets/Wrld/AssetData/iOS/";
-        const string OSXResourcesDirectory = "Assets/Wrld/Plugins/x86_64/StreamAlpha.bundle/Contents/Resources/";
+        const string OSXResourcesDirectory = "Assets/Wrld/Plugins/OSX/StreamAlpha.bundle/Contents/Resources/";
         const string EmptyResourcesDirectory = "Assets/Wrld/Version/";
         private static ActiveBuildTargetListener m_activeBuildTargetListener = new ActiveBuildTargetListener();
         private static WillPlayInEditorListener m_willPlayInEditorListener = new WillPlayInEditorListener();
