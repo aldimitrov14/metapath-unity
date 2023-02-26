@@ -512,82 +512,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679874066}
   m_CullTransparentMesh: 0
---- !u!1 &712707153
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 712707157}
-  - component: {fileID: 712707156}
-  - component: {fileID: 712707155}
-  m_Layer: 0
-  m_Name: FollowPathOnTransportNetwork
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &712707155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712707153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0396be64ab1487429e345a79c1208b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SamplePeriod: 5
---- !u!114 &712707156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712707153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e268decdf681504d94f82815d0551b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_streamingCamera: {fileID: 1961888020}
-  m_apiKey: 9ae5d3fae5490975c872025145bce51d
-  m_latitudeDegrees: 37.80072784423828
-  m_longitudeDegrees: -122.41845703125
-  m_distanceToInterest: 1000
-  m_headingDegrees: 0
-  m_coordSystem: 0
-  m_streamingLodBasedOnDistance: 0
-  m_materialDirectory: WrldMaterials/
-  m_indoorMapMaterialDirectory: WrldMaterials/Archetypes
-  m_overrideLandmarkMaterial: {fileID: 0}
-  m_useBuiltInCameraControls: 1
-  m_terrainCollisions: 0
-  m_roadCollisions: 0
-  m_buildingCollisions: 0
-  m_enableLabels: 0
-  m_enableIndoorEntryMarkerEvents: 1
-  m_labelCanvas: {fileID: 0}
-  m_uploadMeshes: 0
---- !u!4 &712707157
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 712707153}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &781677764
 GameObject:
   m_ObjectHideFlags: 0
@@ -894,7 +818,7 @@ GameObject:
   - component: {fileID: 1114307646}
   - component: {fileID: 1114307647}
   m_Layer: 0
-  m_Name: ExamplesCommon
+  m_Name: Base
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -932,9 +856,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_dropdown: {fileID: 102989301}
   ExampleList:
-  - Name: Follow Path On Transport Network
-    Root: {fileID: 712707153}
-  - Name: Set a Custom Render Camera
+  - Name: Travel Path
     Root: {fileID: 1403438228}
 --- !u!114 &1114307647
 MonoBehaviour:
@@ -1488,10 +1410,10 @@ GameObject:
   - component: {fileID: 1403438232}
   - component: {fileID: 1403438231}
   - component: {fileID: 1403438230}
-  - component: {fileID: 1403438229}
   - component: {fileID: 1403438233}
+  - component: {fileID: 1403438229}
   m_Layer: 0
-  m_Name: SetCustomRenderCamera
+  m_Name: Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1506,9 +1428,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1403438228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a04ccb00e5385a549aad027d835e3c49, type: 3}
+  m_Script: {fileID: 11500000, guid: b1ca3d49606676041a07c5b7b1a460c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SamplePeriod: 5
 --- !u!114 &1403438230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1576,10 +1499,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1403438228}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0396be64ab1487429e345a79c1208b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 993441bfb040e734aa411f95ac8b5a83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SamplePeriod: 5
 --- !u!1 &1556669786
 GameObject:
   m_ObjectHideFlags: 0
