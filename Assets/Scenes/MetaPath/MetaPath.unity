@@ -1431,7 +1431,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1ca3d49606676041a07c5b7b1a460c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SamplePeriod: 5
 --- !u!114 &1403438230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1458,8 +1457,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_streamingCamera: {fileID: 781677765}
   m_apiKey: 9ae5d3fae5490975c872025145bce51d
-  m_latitudeDegrees: 37.794410705566406
-  m_longitudeDegrees: -122.40799713134766
+  m_latitudeDegrees: 42.67366027832031
+  m_longitudeDegrees: 23.282007217407227
   m_distanceToInterest: 800
   m_headingDegrees: 0
   m_coordSystem: 0
