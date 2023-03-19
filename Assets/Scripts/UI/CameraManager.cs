@@ -4,6 +4,7 @@ using UnityEngine;
 using Wrld;
 using Wrld.Space;
 using Wrld.Transport;
+using MetaPath.Constants;
 
 namespace MetaPath.Cameras{
     public class CameraManager
@@ -27,8 +28,8 @@ namespace MetaPath.Cameras{
         }
 
         private void SetCameraClipPlane(){
-            _mainCamera.nearClipPlane = 2;
-            _mainCamera.farClipPlane = 8000;
+            _mainCamera.nearClipPlane = UIConstants.NearPlane;
+            _mainCamera.farClipPlane = UIConstants.FarPlane;
         }
     }
 }

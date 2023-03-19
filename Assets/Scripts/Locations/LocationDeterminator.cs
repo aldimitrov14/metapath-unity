@@ -8,6 +8,7 @@ using Wrld.Transport;
 using MetaPath.DataObjects;
 using MetaPath.Locations;
 using MetaPath.Types;
+using MetaPath.Constants;
 
 namespace MetaPath.Locations{
     public class LocationDeterminator
@@ -42,33 +43,33 @@ namespace MetaPath.Locations{
 
         private double CorrectHeadingDegrees(double headingDegrees){
             if ((float)headingDegrees != (float)headingDegrees){
-                return 90;
+                return LocationConstants.NormalizedDegrees;
             } else {
                 return headingDegrees;
             }
         }
 
         private Vector3 AdjustLocationHeight(Vector3 location){
-            location.y = location.y + 2;
+            location.y = location.y + LocationConstants.GroundHeight;
             
             return location;
         }
 
         private Vector3 CreateHeadingVector(double headingDegrees){
-            return new Vector3(2.0f, (float)headingDegrees, 0.0f);
+            return new Vector3(LocationConstants.EulerAxisX, (float)headingDegrees, LocationConstants.EulerAxisZ);
         }
 
         private double CalculateDistanceAlongPath(double elapsedTime, double previousTime, double currentTime)
         {
             var delta = currentTime - previousTime;
 
-            if (delta > 0.0)
+            if (delta > LocationConstants.InitialDelta)
             {
-                return Math.Min(Math.Max((elapsedTime - previousTime) / delta, 0.0), 1.0);
+                return Math.Min(Math.Max((elapsedTime - previousTime) / delta, LocationConstants.InitialDelta), LocationConstants.MaxDelta);
             }
             else
             {
-                return 0.0;
+                return LocationConstants.InitialDelta;
             }
         }
     }
