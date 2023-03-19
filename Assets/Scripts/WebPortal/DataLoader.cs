@@ -12,7 +12,12 @@ namespace MetaPath.WebPortal{
     public class DataLoader : MonoBehaviour
     {
         [SerializeField]
-        public string entity;
+        private string entity;
+
+        [Tooltip("Development env: 1, Localhost: 2, No-Internet: 3")]
+        [Range(1, 3)]
+        [SerializeField]
+        private int mode;
         private JObject _dataSet;
         private bool _isReady = false;
 
@@ -35,7 +40,21 @@ namespace MetaPath.WebPortal{
             yield return StartCoroutine(tokenCoroutine);
             string accessToken = (string)tokenCoroutine.Current;
 
-            string url = "https://1f5e5a20trial-dev-metapath-srv.cfapps.us10-001.hana.ondemand.com/api/" + entity;
+            string url = "";
+
+            // testing purposes 
+            switch(mode){
+                case 1:
+                url = System.Environment.GetEnvironmentVariable("CLOUD_URL") + entity;
+                break;
+                case 2:
+                url = System.Environment.GetEnvironmentVariable("LOCAL_URL") + entity;
+                break;
+                case 3:
+                _isReady = true;
+                _dataSet = JObject.Parse(System.Environment.GetEnvironmentVariable("SAMPLE_DATA"));
+                yield break;
+            }
 
             UnityWebRequest request = UnityWebRequest.Get(url);
             request.SetRequestHeader("Authorization", "Bearer " + accessToken);
@@ -44,6 +63,10 @@ namespace MetaPath.WebPortal{
 
             if (request.isNetworkError || request.isHttpError)
             {
+                Debug.LogError(request.error);
+                Debug.LogWarning("Switching to No-Internet Env");
+                _isReady = true;
+                _dataSet = JObject.Parse(System.Environment.GetEnvironmentVariable("SAMPLE_DATA"));
                 yield return request.error;
             }
             else
@@ -59,6 +82,5 @@ namespace MetaPath.WebPortal{
                 yield return responseJson;
             }
         }
-
     }
 }
