@@ -8,6 +8,7 @@ using Wrld.Transport;
 using MetaPath.DataObjects;
 using MetaPath.Locations;
 using MetaPath.Cameras;
+using MetaPath.WebPortal;
 
 namespace MetaPath.Main{
     public class TravelManager : MonoBehaviour
@@ -18,24 +19,25 @@ namespace MetaPath.Main{
         private CameraManager _cameraManager;
         private TravelTimeDeterminator _travelTimeDeterminator;
         private PositionManager _positionManager;
-
-        private int _currentLocationIndex;
         private TransportPositioner _transportPositioner;
         private TransportPositionerPointOnGraph _previousPointOnGraph;
         private TransportPositionerPointOnGraph _currentPointOnGraph;
         private TransportPathfindResult _travelPath;
-
+        private Camera _mainCamera;
+        private TransportApi _transportApi;
+        private SpacesApi _spacesApi;
+        private int _currentLocationIndex;
         private double _elapsedTime;
         private double _previousTravelTime;
         private double _currentTravelTime;
         private double _expectedTravelTime;
-
         private bool _isPathNeeded;
         private bool _isMatchNeeded;
+        private bool _isLoadingScreenShown = true;
 
-        private Camera _mainCamera;
-        private TransportApi _transportApi;
-        private SpacesApi _spacesApi;
+        public LocationManager LocationManager{
+            get {return _locationManager; }
+        }
 
         private void OnEnable()
         {
@@ -93,8 +95,8 @@ namespace MetaPath.Main{
         }
 
         private void CreateTravelPath(){
-            _locationManager.CreateLocation(42.673659, 23.282007, -10.0);
-            _locationManager.CreateLocation(42.665939, 23.286181, 45.0);
+            _locationManager.CreateLocation(42.673659, 23.282007);
+            _locationManager.CreateLocation(42.665939, 23.286181); 
             _locationList = _locationManager.LocationList;
         }
 
@@ -181,6 +183,8 @@ namespace MetaPath.Main{
                 return;
             }
 
+            HideLoadingScreen();
+            
             var location = _locationDeterminator.DetermineNextPossiblePosition(_elapsedTime, _previousTravelTime, _currentTravelTime, _travelPath);
 
             _mainCamera.transform.localPosition = location.coordinates;
@@ -188,7 +192,13 @@ namespace MetaPath.Main{
             _mainCamera.transform.localEulerAngles = location.headingDegrees;
         }
 
-
-
+        private void HideLoadingScreen(){
+            if(_isLoadingScreenShown == true){
+                 GameObject baseObject = GameObject.Find("Base");
+                 ScreenBartender screenBartender = baseObject.GetComponent<ScreenBartender>();
+                 screenBartender.HideLoadingScreen();
+                 _isLoadingScreenShown = false;
+            }
+        }
     }
 }

@@ -49,9 +49,6 @@ namespace MetaPath.Locations{
 
             travelDuration = DetermineTravelDuration(distance);
 
-            Debug.Log(distance);
-            Debug.Log(travelDuration);
-
             return travelDuration;
 
         }

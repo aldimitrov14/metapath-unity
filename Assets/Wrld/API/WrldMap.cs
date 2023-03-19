@@ -94,6 +94,16 @@ public class WrldMap : MonoBehaviour
 
     private Api m_api;
     private bool m_isExitingApp = false;
+
+    public double StartingCameraLatitudeDegrees{
+        set {m_latitudeDegrees = value;}
+    }
+
+    public double StartingCameraLongitudeDegrees{
+        set {m_longitudeDegrees = value;}
+    }
+
+
     void Awake()
     {
         SetupApi();
