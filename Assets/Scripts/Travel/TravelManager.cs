@@ -9,6 +9,7 @@ using MetaPath.DataObjects;
 using MetaPath.Locations;
 using MetaPath.Cameras;
 using MetaPath.WebPortal;
+using MetaPath.Constants;
 
 namespace MetaPath.Main{
     public class TravelManager : MonoBehaviour
@@ -34,10 +35,6 @@ namespace MetaPath.Main{
         private bool _isPathNeeded;
         private bool _isMatchNeeded;
         private bool _isLoadingScreenShown = true;
-
-        public LocationManager LocationManager{
-            get {return _locationManager; }
-        }
 
         private void OnEnable()
         {
@@ -71,8 +68,14 @@ namespace MetaPath.Main{
         }
 
         private void InitLocationManagers(){
-            _locationManager = new LocationManager();
+            GameObject baseObject = GameObject.Find(TravelConstants.BaseObject);
+            ScreenBartender screenBartender = baseObject.GetComponent<ScreenBartender>();
+            _locationManager = screenBartender.LocationManager;
             _locationDeterminator = new LocationDeterminator(_transportApi, _spacesApi);
+
+            Debug.Log(screenBartender.LocationManager);
+
+            Debug.Log(screenBartender.LocationManager.LocationList.Count);
         }
 
         private void InitWrldAPIs(){
@@ -86,17 +89,15 @@ namespace MetaPath.Main{
         }
 
         private void InitTravelVariables(){
-            _currentLocationIndex = 0;
-            _elapsedTime = 0.0;
-            _previousTravelTime = 0.0;
-            _currentTravelTime = 0.0;
-            _expectedTravelTime = 10;
+            _currentLocationIndex = TravelConstants.InitialLocationIndex;
+            _elapsedTime = TravelConstants.InitialTime;
+            _previousTravelTime = TravelConstants.InitialTime;
+            _currentTravelTime = TravelConstants.InitialTime;
+            _expectedTravelTime = TravelConstants.InitialExpectedTravelTime;
             _travelPath = null;
         }
 
         private void CreateTravelPath(){
-            _locationManager.CreateLocation(42.673659, 23.282007);
-            _locationManager.CreateLocation(42.665939, 23.286181); 
             _locationList = _locationManager.LocationList;
         }
 
@@ -194,7 +195,7 @@ namespace MetaPath.Main{
 
         private void HideLoadingScreen(){
             if(_isLoadingScreenShown == true){
-                 GameObject baseObject = GameObject.Find("Base");
+                 GameObject baseObject = GameObject.Find(TravelConstants.BaseObject);
                  ScreenBartender screenBartender = baseObject.GetComponent<ScreenBartender>();
                  screenBartender.HideLoadingScreen();
                  _isLoadingScreenShown = false;

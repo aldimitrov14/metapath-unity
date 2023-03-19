@@ -7,6 +7,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using MetaPath.WebPortal.DataObjects;
+using MetaPath.Constants;
 
 namespace MetaPath.WebPortal{
     public class DataLoader : MonoBehaviour
@@ -14,7 +15,7 @@ namespace MetaPath.WebPortal{
         [SerializeField]
         private string entity;
 
-        [Tooltip("Development env: 1, Localhost: 2, No-Internet: 3")]
+        [Tooltip(WebConstants.ModeTooltip)] 
         [Range(1, 3)]
         [SerializeField]
         private int mode;
@@ -40,33 +41,33 @@ namespace MetaPath.WebPortal{
             yield return StartCoroutine(tokenCoroutine);
             string accessToken = (string)tokenCoroutine.Current;
 
-            string url = "";
+            string url = WebConstants.EmptyUrl;
 
             // testing purposes 
             switch(mode){
-                case 1:
-                url = System.Environment.GetEnvironmentVariable("CLOUD_URL") + entity;
+                case WebConstants.ModeDevelopmentEnv:
+                url = System.Environment.GetEnvironmentVariable(WebConstants.EnvCloudUrl) + entity;
                 break;
-                case 2:
-                url = System.Environment.GetEnvironmentVariable("LOCAL_URL") + entity;
+                case WebConstants.ModeLocalEnv:
+                url = System.Environment.GetEnvironmentVariable(WebConstants.EnvLocalUrl) + entity;
                 break;
-                case 3:
+                case WebConstants.ModeNoInternet:
                 _isReady = true;
-                _dataSet = JObject.Parse(System.Environment.GetEnvironmentVariable("SAMPLE_DATA"));
+                _dataSet = JObject.Parse(System.Environment.GetEnvironmentVariable(WebConstants.EnvSampleData));
                 yield break;
             }
 
             UnityWebRequest request = UnityWebRequest.Get(url);
-            request.SetRequestHeader("Authorization", "Bearer " + accessToken);
+            request.SetRequestHeader(WebConstants.Authorization, WebConstants.Bearer + accessToken);
 
             yield return request.SendWebRequest();
 
             if (request.isNetworkError || request.isHttpError)
             {
                 Debug.LogError(request.error);
-                Debug.LogWarning("Switching to No-Internet Env");
+                Debug.LogWarning(WebConstants.NoInternetMessage);
                 _isReady = true;
-                _dataSet = JObject.Parse(System.Environment.GetEnvironmentVariable("SAMPLE_DATA"));
+                _dataSet = JObject.Parse(System.Environment.GetEnvironmentVariable(WebConstants.EnvSampleData));
                 yield return request.error;
             }
             else

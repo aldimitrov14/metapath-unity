@@ -6,32 +6,27 @@ using UnityEngine.Networking;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using MetaPath.Constants;
 
 namespace MetaPath.WebPortal{
     public class SecurityManager
     {
         public IEnumerator GetOAuth2Token()
         {
-            // Construct the request URL
-            string url = System.Environment.GetEnvironmentVariable("OAUTH_URL");
+            string url = System.Environment.GetEnvironmentVariable(WebConstants.EnvOauthUrl);
 
-            // Create a UnityWebRequest object
-            UnityWebRequest request = UnityWebRequest.Post(url, "");
+            UnityWebRequest request = UnityWebRequest.Post(url, WebConstants.EmptyUrl);
 
-            // Set the request headers
-            request.SetRequestHeader("Authorization", "Basic " + Convert.ToBase64String(Encoding.ASCII.GetBytes(System.Environment.GetEnvironmentVariable("CLIENT_CREDENTIALS"))));
-            request.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.SetRequestHeader(WebConstants.Authorization, WebConstants.Basic + Convert.ToBase64String(Encoding.ASCII.GetBytes(System.Environment.GetEnvironmentVariable(WebConstants.EnvClientCredetials))));
+            request.SetRequestHeader(WebConstants.ContentType, WebConstants.MimeType);
 
-            // Set the request body
-            string body = "grant_type=client_credentials";
+            string body = WebConstants.GrantType;
             byte[] bodyRaw = Encoding.UTF8.GetBytes(body);
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
             request.downloadHandler = new DownloadHandlerBuffer();
 
-            // Send the request
             yield return request.SendWebRequest();
 
-            // Check for errors
             if (request.isNetworkError || request.isHttpError)
             {
                 yield return request.error;
@@ -41,7 +36,7 @@ namespace MetaPath.WebPortal{
                 string responseText = Encoding.UTF8.GetString(request.downloadHandler.data);
 
                 JObject responseJson = JObject.Parse(responseText);
-                string accessToken = responseJson["access_token"].ToString();
+                string accessToken = responseJson[WebConstants.AccessToken].ToString();
 
                 yield return accessToken;
             }
