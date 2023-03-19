@@ -16,8 +16,8 @@ namespace MetaPath.Locations{
             _locationList = new List<Location>();
         }
 
-        public void CreateLocation(double latitudeDegrees, double longitudeDegrees, double headingDegrees){
-            _locationList.Add(new Location(latitudeDegrees, longitudeDegrees, headingDegrees));
+        public void CreateLocation(double latitudeDegrees, double longitudeDegrees){
+            _locationList.Add(new Location(latitudeDegrees, longitudeDegrees));
         }
     }
 }

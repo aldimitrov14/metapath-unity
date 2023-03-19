@@ -18,16 +18,11 @@ public class Location
                 get { return _longitudeDegrees; }
                 set { _longitudeDegrees = value; }
         }
-        public double HeadingDegrees{
-                get { return _headingDegrees; }
-                set { _headingDegrees = value; }
-        }
 
-        public Location(double latitudeDegrees, double longitudeDegrees, double heading)
+        public Location(double latitudeDegrees, double longitudeDegrees)
         {
                 LatitudeDegrees = latitudeDegrees;
                 LongitudeDegrees = longitudeDegrees;
-                HeadingDegrees = heading;
         }
     };
 }
