@@ -5,7 +5,8 @@ using System;
 using Newtonsoft.Json.Linq;
 
 namespace MetaPath.Env{
-    public class EnviromentalManager : MonoBehaviour
+                 
+    public class EnvironmentalManager : MonoBehaviour
     {
         void Awake(){
             System.Environment.SetEnvironmentVariable("SAMPLE_DATA", GenerateTravelPaths());
@@ -48,7 +49,7 @@ namespace MetaPath.Env{
                         ""final_latitude"": 42.665939,
                         ""final_longitude"": 23.286181,
                         ""travel_type"": null,
-                        ""routes_ID"": ""(Local) Travel Path - 1 CHANGED CHANGED CHANGED""
+                        ""routes_ID"": "" Travel Path - 1""
                         },
                         {
                         ""ID"": ""95xs333d-799e-9e17-adaf-6cb827bc08df"",
@@ -58,10 +59,10 @@ namespace MetaPath.Env{
                         ""modifiedBy"": ""alice"",
                         ""valid_from"": ""2023-03-15"",
                         ""valid_to"": ""9999-01-01"",
-                        ""starting_latitude"": 42.694955,
-                        ""starting_longitude"": 23.315701,
-                        ""final_latitude"": 42.690081,
-                        ""final_longitude"": 23.306217,
+                        ""starting_latitude"": 42.675559,
+                        ""starting_longitude"": 23.288167,
+                        ""final_latitude"": 42.673250,
+                        ""final_longitude"": 23.291371,
                         ""travel_type"": null,
                         ""routes_ID"": ""(Local) Travel Path - 2""
                         }

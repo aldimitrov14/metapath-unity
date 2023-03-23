@@ -13,5 +13,7 @@ namespace MetaPath.Constants{
         public const string MenuDropdown = "MenuDropdown";
         public const string InitialDropdownData = "Please Select a Travel Path";
         public const string Value = "value";
+        public const string Default = "Default";
+        public const string BirdsEye = "Birds Eye";
      }
 }
