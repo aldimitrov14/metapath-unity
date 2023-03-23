@@ -26,6 +26,11 @@ namespace MetaPath.Main {
         private int _state = UIConstants.StateInitial;
         private List<TravelPath> _travelPaths = new List<TravelPath>();
         private LocationManager _locationManager;
+        private TravelPath _selectedTravelPath;
+
+        public TravelPath SelectedTravelPath{
+            get { return _selectedTravelPath; }
+        }
 
         public LocationManager LocationManager{
             get{ return _locationManager; }
@@ -80,13 +85,12 @@ namespace MetaPath.Main {
 
         TravelPath selectedTravelPath = _travelPaths[selectedIndex-1];
 
+        _selectedTravelPath = selectedTravelPath;
+
         _locationManager.CreateLocation(selectedTravelPath.starting_latitude, selectedTravelPath.starting_longitude);
         _locationManager.CreateLocation(selectedTravelPath.final_latitude, selectedTravelPath.final_longitude);
 
         _mainObject.SetActive(true);  
-
-        wrldMap.StartingCameraLatitudeDegrees = selectedTravelPath.starting_latitude;
-        wrldMap.StartingCameraLongitudeDegrees = selectedTravelPath.starting_longitude;
 
         }
 

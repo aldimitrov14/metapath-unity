@@ -9,6 +9,8 @@ using MetaPath.DataObjects;
 using MetaPath.Locations;
 using MetaPath.Types;
 using MetaPath.Constants;
+using MetaPath.ViewObjects;
+using MetaPath.UI.Objects;
 
 namespace MetaPath.Locations{
     public class LocationDeterminator
@@ -35,8 +37,18 @@ namespace MetaPath.Locations{
             var headingDegrees = _spacesApi.HeadingDegreesFromDirectionAtPoint(directionEcef, pointEcef);
             var currentLocation = _spacesApi.GeographicToWorldPoint(LatLongAltitude.FromECEF(pointEcef));
 
-            locationStructure.coordinates = AdjustLocationHeight(currentLocation);
-            locationStructure.headingDegrees = CreateHeadingVector(CorrectHeadingDegrees(headingDegrees));
+            GameObject baseObject = GameObject.Find(UIConstants.BaseObject);
+            ViewBuilder viewBuilder = baseObject.GetComponent<ViewBuilder>();
+
+            locationStructure.coordinates = AdjustLocationHeight(currentLocation, viewBuilder.CurrentSelectedView.GroundHeight);
+            locationStructure.headingDegrees = CreateHeadingVector(CorrectHeadingDegrees(headingDegrees), viewBuilder.CurrentSelectedView.EulerAngleX);
+            locationStructure.view = viewBuilder.CurrentSelectedView;
+
+            if (viewBuilder.CurrentSelectedView.Name != UIConstants.Default){
+                locationStructure.isCapsuleNeeded = true;
+            }else{
+                locationStructure.isCapsuleNeeded = false;
+            }
 
             return locationStructure;
         }
@@ -49,14 +61,14 @@ namespace MetaPath.Locations{
             }
         }
 
-        private Vector3 AdjustLocationHeight(Vector3 location){
-            location.y = location.y + LocationConstants.GroundHeight;
+        private Vector3 AdjustLocationHeight(Vector3 location, int groundHeight){
+            location.y = location.y + groundHeight;
             
             return location;
         }
 
-        private Vector3 CreateHeadingVector(double headingDegrees){
-            return new Vector3(LocationConstants.EulerAxisX, (float)headingDegrees, LocationConstants.EulerAxisZ);
+        private Vector3 CreateHeadingVector(double headingDegrees, float eulerAxisX){
+            return new Vector3((float)eulerAxisX, (float)headingDegrees, LocationConstants.EulerAxisZ);
         }
 
         private double CalculateDistanceAlongPath(double elapsedTime, double previousTime, double currentTime)

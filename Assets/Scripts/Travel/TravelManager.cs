@@ -10,6 +10,9 @@ using MetaPath.Locations;
 using MetaPath.Cameras;
 using MetaPath.WebPortal;
 using MetaPath.Constants;
+using MetaPath.ViewObjects;
+using MetaPath.UI.Objects;
+using MetaPath.Types;
 
 namespace MetaPath.Main{
     public class TravelManager : MonoBehaviour
@@ -24,6 +27,7 @@ namespace MetaPath.Main{
         private TransportPositionerPointOnGraph _previousPointOnGraph;
         private TransportPositionerPointOnGraph _currentPointOnGraph;
         private TransportPathfindResult _travelPath;
+        private Capsule _capsule;
         private Camera _mainCamera;
         private TransportApi _transportApi;
         private SpacesApi _spacesApi;
@@ -35,6 +39,8 @@ namespace MetaPath.Main{
         private bool _isPathNeeded;
         private bool _isMatchNeeded;
         private bool _isLoadingScreenShown = true;
+        private bool _isViewDropDownShown = false;
+        private bool _isCapsuleShown = false;
 
         private void OnEnable()
         {
@@ -53,8 +59,27 @@ namespace MetaPath.Main{
 
             InitTravelManagers();
 
+            InitCapsule();
+
             SetNextLocation();
             
+        }
+
+        private void InitCapsule(){
+            _capsule = new Capsule(Color.yellow, 3.0f, this.transform);
+
+            _capsule.HideCapsule();
+        }
+
+        private void ShowViewDropDown(){
+            if(_isViewDropDownShown == false){
+            GameObject baseObject = GameObject.Find(UIConstants.BaseObject);
+            ViewBuilder viewBuilder = baseObject.GetComponent<ViewBuilder>();
+
+            viewBuilder.ShowViewDropDown();
+            
+            _isViewDropDownShown = true;
+            }
         }
 
         private void InitTravelManagers(){
@@ -72,10 +97,6 @@ namespace MetaPath.Main{
             ScreenBartender screenBartender = baseObject.GetComponent<ScreenBartender>();
             _locationManager = screenBartender.LocationManager;
             _locationDeterminator = new LocationDeterminator(_transportApi, _spacesApi);
-
-            Debug.Log(screenBartender.LocationManager);
-
-            Debug.Log(screenBartender.LocationManager.LocationList.Count);
         }
 
         private void InitWrldAPIs(){
@@ -126,7 +147,6 @@ namespace MetaPath.Main{
             {
                 NextInput();
             }
-
             UpdateCamera();
         }
 
@@ -185,12 +205,43 @@ namespace MetaPath.Main{
             }
 
             HideLoadingScreen();
-            
-            var location = _locationDeterminator.DetermineNextPossiblePosition(_elapsedTime, _previousTravelTime, _currentTravelTime, _travelPath);
 
+            ShowViewDropDown();
+            
+            LocationStructure location = _locationDeterminator.DetermineNextPossiblePosition(_elapsedTime, _previousTravelTime, _currentTravelTime, _travelPath);
+
+            ManageCamera(location);
+
+            ManageCapsule(location);
+        }
+
+        private void ManageCamera(LocationStructure location){
             _mainCamera.transform.localPosition = location.coordinates;
 
             _mainCamera.transform.localEulerAngles = location.headingDegrees;
+        }
+
+        private void ManageCapsule(LocationStructure location){
+            if (location.isCapsuleNeeded == true){
+
+                if(_isCapsuleShown == false){
+                _capsule.ShowCapsule();
+                }
+
+                _capsule.SetLocalPosition(NormalizeCoordinatesForCapsule(location));
+                _capsule.SetLocalEulerAngles(location.headingDegrees);
+            } else {
+                _capsule.HideCapsule();
+            }
+        }
+
+        private Vector3 NormalizeCoordinatesForCapsule(LocationStructure location){
+
+            var coordinates = location.coordinates;
+
+            coordinates.y = coordinates.y - location.view.GroundHeight;
+
+            return coordinates;
         }
 
         private void HideLoadingScreen(){

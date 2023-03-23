@@ -175,13 +175,6 @@ public class FollowPathOnTransportNetwork : MonoBehaviour
         m_capsule.transform.localPosition = m_spacesApi.GeographicToWorldPoint(LatLongAltitude.FromECEF(pointEcef));
         m_capsule.transform.localEulerAngles = new Vector3(90.0f, (float)headingDegrees, 0.0f);
 
-        Debug.Log(m_spacesApi.GeographicToWorldPoint(LatLongAltitude.FromECEF(pointEcef)));
-
-        var yep = m_spacesApi.GeographicToWorldPoint(LatLongAltitude.FromECEF(pointEcef));
-
-        yep.y = yep.y + 50;
-
-        m_mainCamera.transform.localPosition = yep;
         m_mainCamera.transform.localEulerAngles = new Vector3(90.0f, (float)headingDegrees, 0.0f);
     }
 
