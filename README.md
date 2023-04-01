@@ -25,5 +25,7 @@ see: *https://www.wrld3d.com/unity/latest/docs/examples/*
  3. Load the MetaPath scene by double clicking it
  4. Either use the play button or use the Build and Run Function *File -> Build and Run* (CTRL + B)
  
->Note: From there you can choose your desired route (only two are available) and select it from the dropdown menu. In the Play button (not the build and run) sometimes the screen freezes so you have to left click it to unfreezes, as far as we know this is an Unity issue. 
+>Note: From there you can choose your desired route (only two are available) and select it from the dropdown menu. In the Play button (not the build and run) sometimes the screen freezes so you have to left click it to unfreezes, as far as we know this is an Unity issue. For better experience please build and run the project.
+
+>Note: This project is built and run on a Windows (DOS) operating system and its not tested on Mac (unix) operating systems.
  
